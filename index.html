@@ -22,6 +22,15 @@
             overflow-x: hidden;
             min-height: 100vh;
             position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Detect mobile for performance optimization */
+        @media (max-width: 768px) {
+            body {
+                background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            }
         }
 
         /* Animated background particles */
@@ -35,7 +44,6 @@
             z-index: 1;
         }
 
-        /* Enhanced particles with more variety */
         .particle {
             position: absolute;
             border-radius: 50%;
@@ -67,6 +75,17 @@
             border-radius: 2px;
         }
 
+        /* Reduce particles on mobile */
+        @media (max-width: 768px) {
+            .particle {
+                animation-duration: 8s;
+            }
+            .particle.type-2,
+            .particle.type-4 {
+                display: none;
+            }
+        }
+
         @keyframes float {
             0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0; }
             50% { transform: translateY(-100px) rotate(180deg); opacity: 1; }
@@ -92,12 +111,12 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 1rem;
+            padding: 2rem 1rem;
             text-align: center;
         }
 
         .logo {
-            font-size: 3.5rem;
+            font-size: clamp(2rem, 8vw, 3.5rem);
             font-weight: 900;
             letter-spacing: -0.05em;
             background: linear-gradient(135deg, #f3f4f6 0%, #9ca3af 50%, #6b7280 100%);
@@ -135,29 +154,37 @@
             z-index: -2;
         }
 
+        /* Reduce glitch effect on mobile */
+        @media (max-width: 768px) {
+            .logo::before,
+            .logo::after {
+                animation-duration: 4s;
+            }
+        }
+
         @keyframes glitch {
             0%, 90%, 100% {
                 transform: translate(0);
                 filter: hue-rotate(0deg);
             }
             91% {
-                transform: translate(-2px, 1px);
+                transform: translate(-1px, 0.5px);
                 filter: hue-rotate(90deg);
             }
             92% {
-                transform: translate(2px, -1px);
+                transform: translate(1px, -0.5px);
                 filter: hue-rotate(180deg);
             }
             93% {
-                transform: translate(-1px, 2px);
+                transform: translate(-0.5px, 1px);
                 filter: hue-rotate(270deg);
             }
             94% {
-                transform: translate(1px, -2px);
+                transform: translate(0.5px, -1px);
                 filter: hue-rotate(360deg);
             }
             95% {
-                transform: translate(-1px, 1px);
+                transform: translate(-0.5px, 0.5px);
                 filter: hue-rotate(90deg);
             }
         }
@@ -168,12 +195,12 @@
                 opacity: 0;
             }
             86% {
-                transform: translate(-2px, 0);
-                opacity: 0.8;
+                transform: translate(-1px, 0);
+                opacity: 0.6;
             }
             87% {
-                transform: translate(2px, 0);
-                opacity: 0.8;
+                transform: translate(1px, 0);
+                opacity: 0.6;
             }
             88% {
                 transform: translate(0);
@@ -187,12 +214,12 @@
                 opacity: 0;
             }
             89% {
-                transform: translate(1px, 1px);
-                opacity: 0.6;
+                transform: translate(0.5px, 0.5px);
+                opacity: 0.4;
             }
             90% {
-                transform: translate(-1px, -1px);
-                opacity: 0.6;
+                transform: translate(-0.5px, -0.5px);
+                opacity: 0.4;
             }
             91% {
                 transform: translate(0);
@@ -201,31 +228,33 @@
         }
 
         .tagline {
-            font-size: 1.25rem;
+            font-size: clamp(1rem, 4vw, 1.25rem);
             font-weight: 300;
             color: #d1d5db;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             max-width: 600px;
             line-height: 1.6;
             animation: fadeInUp 1s ease-out 0.5s both;
+            padding: 0 1rem;
         }
 
         .main-message {
-            font-size: 2.2rem;
+            font-size: clamp(1.5rem, 6vw, 2.2rem);
             font-weight: 720;
             background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 50%, #9ca3af 100%);
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             line-height: 1.2;
             animation: fadeInUp 1s ease-out 0.8s both;
             font-family: 'Courier New', monospace;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.05em;
             text-transform: uppercase;
             position: relative;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
             filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+            padding: 0 1rem;
         }
 
         .main-message::before {
@@ -246,21 +275,33 @@
         }
 
         .subtitle {
-            font-size: 1.25rem;
+            font-size: clamp(1rem, 3.5vw, 1.25rem);
             color: #9ca3af;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
             font-weight: 400;
             animation: fadeInUp 1s ease-out 1.1s both;
+            padding: 0 1rem;
         }
 
         .features-grid {
-            display: flex;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
-            margin-bottom: 2rem;
-            max-width: 900px;
+            margin-bottom: 3rem;
+            max-width: 1000px;
+            width: 100%;
             animation: fadeInUp 1s ease-out 1.4s both;
-            flex-wrap: wrap;
+            padding: 0 1rem;
+        }
+
+        /* Mobile-first approach for features */
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                margin-bottom: 2rem;
+                max-width: 400px;
+            }
         }
 
         .feature-card {
@@ -268,18 +309,27 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(75, 85, 99, 0.3);
             border-radius: 16px;
-            padding: 1.5rem;
+            padding: 2rem 1.5rem;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-            flex: 0 1 280px;
             transform-style: preserve-3d;
             animation: cardEntry 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+            cursor: pointer;
+            touch-action: manipulation;
         }
 
         .feature-card:nth-child(1) { animation-delay: 1.6s; }
         .feature-card:nth-child(2) { animation-delay: 1.8s; }
         .feature-card:nth-child(3) { animation-delay: 2.0s; }
+
+        /* Mobile-optimized card sizing */
+        @media (max-width: 768px) {
+            .feature-card {
+                padding: 1.5rem 1rem;
+                border-radius: 12px;
+            }
+        }
 
         @keyframes cardEntry {
             0% {
@@ -305,12 +355,24 @@
         }
 
         .feature-card:hover {
-            transform: translateY(-12px) rotateX(5deg) rotateY(5deg);
+            transform: translateY(-8px) rotateX(2deg) rotateY(2deg);
             border-color: rgba(156, 163, 175, 0.6);
             box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(156, 163, 175, 0.2),
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(156, 163, 175, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        /* Mobile touch interactions */
+        @media (max-width: 768px) {
+            .feature-card:active {
+                transform: translateY(-4px) scale(0.98);
+                transition: transform 0.1s ease;
+            }
+            
+            .feature-card:hover {
+                transform: translateY(-4px);
+            }
         }
 
         .feature-card:hover::before {
@@ -318,13 +380,14 @@
         }
 
         .feature-icon {
-            font-size: 3rem;
+            font-size: clamp(2rem, 6vw, 3rem);
             margin-bottom: 1rem;
             display: block;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
         }
 
         .feature-title {
-            font-size: 1.25rem;
+            font-size: clamp(1.1rem, 4vw, 1.25rem);
             font-weight: 600;
             color: #f3f4f6;
             margin-bottom: 0.5rem;
@@ -332,12 +395,14 @@
 
         .feature-description {
             color: #9ca3af;
-            font-size: 0.95rem;
+            font-size: clamp(0.9rem, 3vw, 0.95rem);
             line-height: 1.5;
         }
 
         .cta-section {
             animation: fadeInUp 1s ease-out 1.7s both;
+            padding: 0 1rem;
+            width: 100%;
         }
 
         .mystery-button {
@@ -345,7 +410,7 @@
             color: white;
             border: 2px solid rgba(156, 163, 175, 0.3);
             padding: 1rem 2.5rem;
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 3.5vw, 1.1rem);
             font-weight: 600;
             border-radius: 12px;
             cursor: pointer;
@@ -355,7 +420,10 @@
             margin-bottom: 1.5rem;
             font-family: 'Courier New', monospace;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.05em;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            min-width: 200px;
         }
 
         .mystery-button::before {
@@ -382,8 +450,22 @@
             left: 100%;
         }
 
+        /* Mobile button optimization */
+        @media (max-width: 768px) {
+            .mystery-button {
+                padding: 1rem 1.5rem;
+                min-width: 180px;
+                font-size: 1rem;
+            }
+            
+            .mystery-button:active {
+                transform: translateY(-1px) scale(0.98);
+                transition: transform 0.1s ease;
+            }
+        }
+
         .coming-soon {
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 3vw, 1rem);
             color: #6b7280;
             font-weight: 500;
         }
@@ -414,6 +496,7 @@
             justify-content: center;
             opacity: 0;
             transition: opacity 0.3s ease;
+            padding: 1rem;
         }
 
         .modal.show {
@@ -425,21 +508,35 @@
             background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
             border: 1px solid rgba(156, 163, 175, 0.3);
             border-radius: 20px;
-            padding: 3rem;
+            padding: 2rem;
             max-width: 500px;
-            width: 90%;
+            width: 100%;
             text-align: center;
             transform: scale(0.8);
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
         }
 
         .modal.show .modal-content {
             transform: scale(1);
         }
 
+        /* Mobile modal optimization */
+        @media (max-width: 768px) {
+            .modal {
+                padding: 1rem;
+            }
+            
+            .modal-content {
+                padding: 1.5rem;
+                border-radius: 16px;
+                margin: 1rem;
+            }
+        }
+
         .modal-title {
-            font-size: 2rem;
+            font-size: clamp(1.5rem, 5vw, 2rem);
             font-weight: 700;
             margin-bottom: 1rem;
             background: linear-gradient(135deg, #f3f4f6 0%, #9ca3af 100%);
@@ -452,6 +549,7 @@
             color: #d1d5db;
             margin-bottom: 2rem;
             line-height: 1.6;
+            font-size: clamp(0.9rem, 3vw, 1rem);
         }
 
         .modal-form {
@@ -466,14 +564,17 @@
             border-radius: 8px;
             padding: 1rem;
             color: white;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 3vw, 1rem);
             transition: all 0.3s ease;
+            -webkit-appearance: none;
+            appearance: none;
         }
 
         .modal-input:focus {
             outline: none;
             border-color: rgba(156, 163, 175, 0.8);
             background: rgba(31, 41, 55, 0.8);
+            box-shadow: 0 0 0 3px rgba(156, 163, 175, 0.1);
         }
 
         .modal-submit {
@@ -483,10 +584,12 @@
             border-radius: 8px;
             color: white;
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 3.5vw, 1.1rem);
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 0.5rem;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .modal-submit:hover {
@@ -494,68 +597,48 @@
             box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
         }
 
+        .modal-submit:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
         .modal-close {
             position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
+            top: 1rem;
+            right: 1rem;
             background: none;
             border: none;
             color: #6b7280;
-            font-size: 2rem;
+            font-size: 1.5rem;
             cursor: pointer;
             transition: color 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .modal-close:hover {
             color: #9ca3af;
+            background: rgba(75, 85, 99, 0.2);
         }
 
-        /* Responsive design */
+        /* Mobile close button */
         @media (max-width: 768px) {
-            .logo {
-                font-size: 2.5rem;
-            }
-            
-            .main-message {
-                font-size: 2.2rem;
-            }
-            
-            .tagline {
-                font-size: 1.1rem;
-            }
-            
-            .features-grid {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: center;
-            }
-            
-            .feature-card {
-                max-width: 320px;
-                width: 100%;
-                padding: 1.2rem;
-            }
-
-            .modal-content {
-                padding: 2rem;
+            .modal-close {
+                top: 0.5rem;
+                right: 0.5rem;
+                width: 36px;
+                height: 36px;
+                font-size: 1.2rem;
             }
         }
 
-        @media (max-width: 480px) {
-            .logo {
-                font-size: 2rem;
-            }
-            
-            .main-message {
-                font-size: 1.8rem;
-            }
-            
-            .container {
-                padding: 0.5rem;
-            }
-        }
-
-        /* Ticket animation */
+        /* Ticket animation - reduced on mobile */
         .ticket-float {
             position: fixed;
             font-size: 2rem;
@@ -563,6 +646,13 @@
             pointer-events: none;
             z-index: 5;
             animation: ticketFloat 8s linear infinite;
+        }
+
+        @media (max-width: 768px) {
+            .ticket-float {
+                font-size: 1.5rem;
+                animation-duration: 10s;
+            }
         }
 
         @keyframes ticketFloat {
@@ -577,6 +667,77 @@
                 transform: translateX(100vw) translateY(-100px) rotate(360deg);
                 opacity: 0;
             }
+        }
+
+        /* Smooth scrolling for iOS */
+        @supports (-webkit-overflow-scrolling: touch) {
+            body {
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        /* Reduce motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .particles {
+                display: none;
+            }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .feature-card {
+                border-color: rgba(255, 255, 255, 0.5);
+            }
+            
+            .modal-input {
+                border-color: rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        /* Focus styles for accessibility */
+        .mystery-button:focus,
+        .modal-submit:focus,
+        .modal-close:focus {
+            outline: 2px solid rgba(156, 163, 175, 0.8);
+            outline-offset: 2px;
+        }
+
+        .modal-input:focus {
+            outline: 2px solid rgba(156, 163, 175, 0.8);
+            outline-offset: 2px;
+        }
+
+        /* Loading state */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
     </style>
 </head>
@@ -619,28 +780,31 @@
     <!-- Modal -->
     <div id="mysteryModal" class="modal">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <button class="modal-close" onclick="closeModal()" aria-label="Cerrar modal">&times;</button>
             <h3 class="modal-title">¡Sé de los primeros!</h3>
             <p class="modal-text">
                 Unite a la lista de acceso anticipado y sé parte de la revolución del ticketing.
                 Te notificaremos en cuanto lancemos.
             </p>
             <form class="modal-form" onsubmit="handleSubmit(event)">
-                <input type="email" class="modal-input" placeholder="tu@email.com" required>
+                <input type="email" class="modal-input" placeholder="tu@email.com" required aria-label="Email">
                 <button type="submit" class="modal-submit">Unirme a la lista</button>
             </form>
         </div>
     </div>
 
     <script>
-        // Create floating particles
+        // Detect mobile device
+        const isMobile = window.innerWidth <= 768;
+        
+        // Create floating particles with mobile optimization
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
+            const particleCount = isMobile ? 20 : 50;
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
-                particle.className = 'particle type-' + ((i % 4) + 1);
+                particle.className = 'particle type-' + ((i % (isMobile ? 2 : 4)) + 1);
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.animationDelay = Math.random() * 6 + 's';
                 particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
@@ -648,7 +812,7 @@
             }
         }
 
-        // Create floating tickets
+        // Create floating tickets with mobile optimization
         function createTicket() {
             const ticket = document.createElement('div');
             ticket.className = 'ticket-float';
@@ -660,13 +824,18 @@
             
             setTimeout(() => {
                 ticket.remove();
-            }, 10000);
+            }, 12000);
         }
 
-        // Mystery button functionality
+        // Mystery button functionality with loading state
         function revealMystery() {
             const modal = document.getElementById('mysteryModal');
             modal.classList.add('show');
+            
+            // Add haptic feedback on mobile
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
         }
 
         // Close modal
@@ -675,55 +844,185 @@
             modal.classList.remove('show');
         }
 
-        // Handle form submission
+        // Handle form submission with improved UX
         function handleSubmit(event) {
             event.preventDefault();
             const submitButton = event.target.querySelector('.modal-submit');
             const originalText = submitButton.textContent;
             
-            submitButton.textContent = '¡Listo! Te contactaremos pronto 🎉';
-            submitButton.style.background = 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%)';
+            // Add loading state
+            submitButton.classList.add('loading');
+            submitButton.textContent = 'Enviando...';
             
+            // Simulate API call
             setTimeout(() => {
-                closeModal();
-                // Reset form after closing
+                submitButton.classList.remove('loading');
+                submitButton.textContent = '¡Listo! Te contactaremos pronto 🎉';
+                submitButton.style.background = 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%)';
+                
+                // Add haptic feedback
+                if (navigator.vibrate) {
+                    navigator.vibrate([100, 50, 100]);
+                }
+                
                 setTimeout(() => {
-                    event.target.reset();
-                    submitButton.textContent = originalText;
-                    submitButton.style.background = 'linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%)';
-                }, 300);
-            }, 2000);
+                    closeModal();
+                    // Reset form after closing
+                    setTimeout(() => {
+                        event.target.reset();
+                        submitButton.textContent = originalText;
+                        submitButton.style.background = 'linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%)';
+                    }, 300);
+                }, 2000);
+            }, 1000);
         }
 
-        // Initialize
+        // Improved touch interactions
+        function addTouchInteractions() {
+            const cards = document.querySelectorAll('.feature-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('touchstart', function(e) {
+                    this.style.transform = 'translateY(-4px) scale(0.98)';
+                }, { passive: true });
+                
+                card.addEventListener('touchend', function(e) {
+                    this.style.transform = '';
+                }, { passive: true });
+            });
+        }
+
+        // Intersection Observer for performance
+        function setupIntersectionObserver() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            const elements = document.querySelectorAll('.feature-card');
+            elements.forEach(el => observer.observe(el));
+        }
+
+        // Initialize everything
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
+            addTouchInteractions();
+            setupIntersectionObserver();
             
-            // Create tickets periodically
-            setInterval(createTicket, 2800);
-            
-            // Add some initial tickets
-            setTimeout(createTicket, 1000);
-            setTimeout(createTicket, 2000);
+            // Create tickets with mobile optimization
+            if (!isMobile) {
+                setInterval(createTicket, 2800);
+                setTimeout(createTicket, 1000);
+                setTimeout(createTicket, 2000);
+            } else {
+                setInterval(createTicket, 5000);
+                setTimeout(createTicket, 2000);
+            }
         });
 
-        // Add mouse movement parallax effect
-        document.addEventListener('mousemove', (e) => {
-            const particles = document.querySelectorAll('.particle');
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-            
-            particles.forEach((particle, index) => {
-                const speed = (index % 3 + 1) * 0.5;
-                particle.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+        // Enhanced mouse movement parallax (desktop only)
+        if (!isMobile) {
+            document.addEventListener('mousemove', (e) => {
+                const particles = document.querySelectorAll('.particle');
+                const x = (e.clientX / window.innerWidth - 0.5) * 2;
+                const y = (e.clientY / window.innerHeight - 0.5) * 2;
+                
+                particles.forEach((particle, index) => {
+                    const speed = (index % 3 + 1) * 0.3;
+                    particle.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+                });
             });
-        });
+        }
 
         // Close modal when clicking outside
         document.getElementById('mysteryModal').addEventListener('click', (e) => {
             if (e.target === e.currentTarget) {
                 closeModal();
             }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Prevent zoom on double tap (iOS)
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Handle orientation change
+        window.addEventListener('orientationchange', function() {
+            setTimeout(() => {
+                window.scrollTo(0, 0);
+            }, 100);
+        });
+
+        // Smooth scroll polyfill for older browsers
+        if (!('scrollBehavior' in document.documentElement.style)) {
+            const smoothScroll = function(target) {
+                const targetPosition = target.offsetTop;
+                const startPosition = window.pageYOffset;
+                const distance = targetPosition - startPosition;
+                const duration = 1000;
+                let start = null;
+
+                function step(timestamp) {
+                    if (!start) start = timestamp;
+                    const progress = timestamp - start;
+                    window.scrollTo(0, easeInOutCubic(progress, startPosition, distance, duration));
+                    if (progress < duration) window.requestAnimationFrame(step);
+                }
+
+                function easeInOutCubic(t, b, c, d) {
+                    t /= d / 2;
+                    if (t < 1) return c / 2 * t * t * t + b;
+                    t -= 2;
+                    return c / 2 * (t * t * t + 2) + b;
+                }
+
+                window.requestAnimationFrame(step);
+            };
+        }
+
+        // Performance optimization: pause animations when tab is not visible
+        document.addEventListener('visibilitychange', function() {
+            const particles = document.querySelectorAll('.particle');
+            const tickets = document.querySelectorAll('.ticket-float');
+            
+            if (document.hidden) {
+                particles.forEach(p => p.style.animationPlayState = 'paused');
+                tickets.forEach(t => t.style.animationPlayState = 'paused');
+            } else {
+                particles.forEach(p => p.style.animationPlayState = 'running');
+                tickets.forEach(t => t.style.animationPlayState = 'running');
+            }
+        });
+
+        // Add loading animation to mystery button
+        const mysteryButton = document.querySelector('.mystery-button');
+        mysteryButton.addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
         });
     </script>
 </body>
