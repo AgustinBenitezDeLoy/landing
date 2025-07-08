@@ -109,16 +109,6 @@
             animation: glitch 4s infinite;
         }
 
-        .logo {
-            font-size: 3.5rem;
-            font-weight: 900;
-            letter-spacing: -0.05em;
-            position: relative;
-            color: white;
-            text-transform: uppercase;
-            animation: glitch-main 2s infinite linear alternate-reverse;
-        }
-
         .logo::before,
         .logo::after {
             content: 'reentraste';
@@ -126,77 +116,87 @@
             top: 0;
             left: 0;
             width: 100%;
-            overflow: hidden;
+            height: 100%;
+            background: linear-gradient(135deg, #f3f4f6 0%, #9ca3af 50%, #6b7280 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .logo::before {
-            left: 2px;
-            text-shadow: -2px 0 red;
-            clip-path: inset(0 0 50% 0);
-            animation: glitch-slice 2s infinite linear alternate-reverse;
+            animation: glitch-1 2s infinite;
+            color: #ef4444;
+            z-index: -1;
         }
 
         .logo::after {
-            left: -2px;
-            text-shadow: -2px 0 cyan;
-            clip-path: inset(50% 0 0 0);
-            animation: glitch-slice2 2s infinite linear alternate-reverse;
+            animation: glitch-2 3s infinite;
+            color: #3b82f6;
+            z-index: -2;
         }
 
-        @keyframes glitch-main {
-            0% {
+        @keyframes glitch {
+            0%, 90%, 100% {
                 transform: translate(0);
+                filter: hue-rotate(0deg);
             }
-            20% {
-                transform: translate(-2px, 2px);
+            91% {
+                transform: translate(-2px, 1px);
+                filter: hue-rotate(90deg);
             }
-            40% {
-                transform: translate(-2px, -2px);
+            92% {
+                transform: translate(2px, -1px);
+                filter: hue-rotate(180deg);
             }
-            60% {
-                transform: translate(2px, 2px);
+            93% {
+                transform: translate(-1px, 2px);
+                filter: hue-rotate(270deg);
             }
-            80% {
-                transform: translate(2px, -2px);
+            94% {
+                transform: translate(1px, -2px);
+                filter: hue-rotate(360deg);
             }
-            100% {
+            95% {
+                transform: translate(-1px, 1px);
+                filter: hue-rotate(90deg);
+            }
+        }
+
+        @keyframes glitch-1 {
+            0%, 85%, 100% {
                 transform: translate(0);
+                opacity: 0;
+            }
+            86% {
+                transform: translate(-2px, 0);
+                opacity: 0.8;
+            }
+            87% {
+                transform: translate(2px, 0);
+                opacity: 0.8;
+            }
+            88% {
+                transform: translate(0);
+                opacity: 0;
             }
         }
 
-        @keyframes glitch-slice {
-            0% {
-                clip-path: inset(10% 0 90% 0);
+        @keyframes glitch-2 {
+            0%, 88%, 100% {
+                transform: translate(0);
+                opacity: 0;
             }
-            25% {
-                clip-path: inset(40% 0 50% 0);
+            89% {
+                transform: translate(1px, 1px);
+                opacity: 0.6;
             }
-            50% {
-                clip-path: inset(20% 0 60% 0);
+            90% {
+                transform: translate(-1px, -1px);
+                opacity: 0.6;
             }
-            75% {
-                clip-path: inset(60% 0 30% 0);
-            }
-            100% {
-                clip-path: inset(80% 0 10% 0);
-            }
-        }
-
-        @keyframes glitch-slice2 {
-            0% {
-                clip-path: inset(80% 0 10% 0);
-            }
-            25% {
-                clip-path: inset(60% 0 30% 0);
-            }
-            50% {
-                clip-path: inset(20% 0 60% 0);
-            }
-            75% {
-                clip-path: inset(40% 0 50% 0);
-            }
-            100% {
-                clip-path: inset(10% 0 90% 0);
+            91% {
+                transform: translate(0);
+                opacity: 0;
             }
         }
 
