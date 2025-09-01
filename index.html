@@ -34,6 +34,10 @@
         }
 
         .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(0.5rem, 2vw, 1rem);
             font-size: clamp(2.75rem, 8.5vw, 5.5rem);
             font-weight: 500;
             letter-spacing: -0.04em;
@@ -41,17 +45,100 @@
             text-align: center;
             position: relative;
             user-select: none;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             cursor: default;
             font-feature-settings: 'kern' 1, 'liga' 1;
             text-rendering: optimizeLegibility;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.1));
+            animation: logoAppear 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
+                       logoShake 8s ease-in-out infinite 2s;
+            opacity: 0;
         }
 
-        /* Hover effect - subtle and professional */
-        @media (hover: hover) and (pointer: fine) {
-            .logo:hover {
-                transform: translateY(-1px);
-                letter-spacing: -0.035em;
+        .ticket-icon {
+            width: clamp(2.5rem, 8vw, 5rem);
+            height: clamp(1.8rem, 6vw, 3.6rem);
+            fill: #ffffff;
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.15));
+        }
+
+        .logo-text {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 50%, #e0e0e0 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        /* Reflejo sutil */
+        .logo-text::after {
+            content: 'Reentraste';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(240, 240, 240, 0.05) 50%, rgba(224, 224, 224, 0.02) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transform: scaleY(-1);
+            opacity: 0.3;
+            filter: blur(1px);
+            mask: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 60%);
+            -webkit-mask: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 60%);
+        }
+
+        /* Tickets voladores */
+        .flying-ticket {
+            position: fixed;
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.2);
+            pointer-events: none;
+            z-index: 10;
+            animation: ticketFly 12s linear infinite;
+        }
+
+        /* Animaciones */
+        @keyframes logoAppear {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+                filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0));
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.1));
+            }
+        }
+
+        @keyframes logoShake {
+            0%, 95%, 100% {
+                transform: translateX(0) translateY(0);
+            }
+            96% {
+                transform: translateX(-1px) translateY(-0.5px);
+            }
+            97% {
+                transform: translateX(1px) translateY(0.5px);
+            }
+            98% {
+                transform: translateX(-0.5px) translateY(0.5px);
+            }
+            99% {
+                transform: translateX(0.5px) translateY(-0.5px);
+            }
+        }
+
+        @keyframes ticketFly {
+            0% {
+                transform: translateX(-100px) translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            5%, 95% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100vw) translateY(-100px) rotate(360deg);
+                opacity: 0;
             }
         }
 
@@ -62,6 +149,10 @@
                 padding: 0 2rem;
                 letter-spacing: -0.035em;
             }
+
+            .flying-ticket {
+                font-size: 1.5rem;
+            }
         }
 
         /* Ultra-wide screens */
@@ -71,31 +162,23 @@
             }
         }
 
-        /* Animation for initial load */
-        @media (prefers-reduced-motion: no-preference) {
-            .logo {
-                animation: logoAppear 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-                opacity: 0;
-            }
-        }
-
-        @keyframes logoAppear {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-                letter-spacing: -0.06em;
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-                letter-spacing: -0.04em;
-            }
-        }
-
         /* High contrast support */
         @media (prefers-contrast: high) {
             .logo {
                 font-weight: 600;
+                filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.2));
+            }
+        }
+
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            .logo {
+                animation: logoAppear 1s ease forwards;
+            }
+            
+            .flying-ticket,
+            .logo-text::after {
+                display: none;
             }
         }
 
@@ -104,20 +187,43 @@
             outline: 1px solid rgba(255, 255, 255, 0.6);
             outline-offset: 8px;
         }
-
-        /* Prevent text selection highlighting */
-        .logo::selection {
-            background: transparent;
-        }
-        
-        .logo::-moz-selection {
-            background: transparent;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="logo" tabindex="0">Reentraste</h1>
+        <h1 class="logo" tabindex="0">
+            <svg class="ticket-icon" viewBox="0 0 100 72" xmlns="http://www.w3.org/2000/svg">
+                <rect x="8" y="16" width="84" height="40" rx="4" ry="4" fill="none" stroke="currentColor" stroke-width="3"/>
+                <rect x="16" y="24" width="20" height="24" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2"/>
+                <line x1="48" y1="16" x2="48" y2="56" stroke="currentColor" stroke-width="2" stroke-dasharray="3,2"/>
+            </svg>
+            <span class="logo-text">Reentraste</span>
+        </h1>
     </div>
+
+    <script>
+        // Crear tickets voladores
+        function createFlyingTicket() {
+            const ticket = document.createElement('div');
+            ticket.className = 'flying-ticket';
+            ticket.innerHTML = '🎫';
+            ticket.style.left = '-100px';
+            ticket.style.top = Math.random() * window.innerHeight + 'px';
+            ticket.style.animationDelay = Math.random() * 2 + 's';
+            ticket.style.animationDuration = (Math.random() * 4 + 8) + 's';
+            document.body.appendChild(ticket);
+            
+            // Eliminar después de la animación
+            setTimeout(() => {
+                ticket.remove();
+            }, 15000);
+        }
+
+        // Iniciar tickets voladores
+        setInterval(createFlyingTicket, 3000);
+        
+        // Primer ticket después de 2 segundos
+        setTimeout(createFlyingTicket, 2000);
+    </script>
 </body>
 </html>
