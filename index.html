@@ -26,11 +26,13 @@
 
         .container {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             width: 100%;
             position: relative;
+            gap: clamp(2rem, 5vw, 4rem);
         }
 
         .logo {
@@ -86,6 +88,108 @@
             -webkit-mask: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 60%);
         }
 
+        /* Timer Container */
+        .timer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(1rem, 3vw, 2rem);
+            animation: timerAppear 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.5s;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .timer-label {
+            font-size: clamp(0.875rem, 2.5vw, 1.125rem);
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 0.025em;
+            text-transform: uppercase;
+            margin-bottom: clamp(0.5rem, 1.5vw, 1rem);
+        }
+
+        .timer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: clamp(0.75rem, 2vw, 1.5rem);
+            align-items: center;
+        }
+
+        .timer-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .timer-circle {
+            width: clamp(3.5rem, 12vw, 6rem);
+            height: clamp(3.5rem, 12vw, 6rem);
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .timer-circle:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 6px 30px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .timer-number {
+            font-size: clamp(1.25rem, 4vw, 2rem);
+            font-weight: 600;
+            color: #ffffff;
+            font-feature-settings: 'tnum' 1;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .timer-unit-label {
+            font-size: clamp(0.625rem, 1.8vw, 0.75rem);
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: clamp(0.5rem, 1.5vw, 0.75rem);
+            text-align: center;
+        }
+
+        /* Progress ring */
+        .timer-circle::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                rgba(255, 255, 255, 0.3) var(--progress, 0deg),
+                transparent var(--progress, 0deg)
+            );
+            z-index: 1;
+            transition: --progress 1s ease;
+        }
+
+
+
         /* Tickets voladores */
         .flying-ticket {
             position: fixed;
@@ -107,6 +211,17 @@
                 opacity: 1;
                 transform: translateY(0);
                 filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.1));
+            }
+        }
+
+        @keyframes timerAppear {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
@@ -142,16 +257,26 @@
             }
         }
 
+
+
         /* Mobile optimizations */
         @media (max-width: 768px) {
+            .container {
+                gap: clamp(1.5rem, 4vw, 2.5rem);
+                padding: 1rem;
+            }
+
             .logo {
                 font-size: clamp(2.25rem, 11vw, 4rem);
-                padding: 0 2rem;
                 letter-spacing: -0.035em;
             }
 
             .flying-ticket {
                 font-size: 1.5rem;
+            }
+
+            .timer-grid {
+                gap: clamp(0.5rem, 1.5vw, 1rem);
             }
         }
 
@@ -168,6 +293,10 @@
                 font-weight: 600;
                 filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.2));
             }
+            
+            .timer-circle {
+                border-color: rgba(255, 255, 255, 0.3);
+            }
         }
 
         /* Reduce motion for accessibility */
@@ -180,12 +309,16 @@
             .logo-text::after {
                 display: none;
             }
+
+            .timer-circle:hover {
+                transform: none;
+            }
         }
 
         /* Focus styles for accessibility */
         .logo:focus {
             outline: 1px solid rgba(255, 255, 255, 0.6);
-            outline-offset: 8px;
+            outline-offset: 4px;
         }
     </style>
 </head>
@@ -199,9 +332,103 @@
             </svg>
             <span class="logo-text">Reentraste</span>
         </h1>
+
+        <div class="timer-container">
+            
+            <div class="timer-grid">
+                <div class="timer-unit">
+                    <div class="timer-circle" id="daysCircle">
+                        <span class="timer-number" id="days">00</span>
+                    </div>
+                    <div class="timer-unit-label">Días</div>
+                </div>
+                <div class="timer-unit">
+                    <div class="timer-circle" id="hoursCircle">
+                        <span class="timer-number" id="hours">00</span>
+                    </div>
+                    <div class="timer-unit-label">Horas</div>
+                </div>
+                <div class="timer-unit">
+                    <div class="timer-circle" id="minutesCircle">
+                        <span class="timer-number" id="minutes">00</span>
+                    </div>
+                    <div class="timer-unit-label">Minutos</div>
+                </div>
+                <div class="timer-unit">
+                    <div class="timer-circle" id="secondsCircle">
+                        <span class="timer-number" id="seconds">00</span>
+                    </div>
+                    <div class="timer-unit-label">Segundos</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
+        // Timer functionality
+        let timerInterval;
+        let totalSeconds = 20 * 24 * 60 * 60; // 20 days
+        const initialTotalSeconds = totalSeconds;
+
+        // Elements
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        const daysCircle = document.getElementById('daysCircle');
+        const hoursCircle = document.getElementById('hoursCircle');
+        const minutesCircle = document.getElementById('minutesCircle');
+        const secondsCircle = document.getElementById('secondsCircle');
+
+        // Format number with leading zero
+        function formatNumber(num) {
+            return num.toString().padStart(2, '0');
+        }
+
+        // Update display
+        function updateDisplay() {
+            const days = Math.floor(totalSeconds / (24 * 3600));
+            const hours = Math.floor((totalSeconds % (24 * 3600)) / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            daysEl.textContent = formatNumber(days);
+            hoursEl.textContent = formatNumber(hours);
+            minutesEl.textContent = formatNumber(minutes);
+            secondsEl.textContent = formatNumber(seconds);
+
+            // Update progress rings
+            updateProgressRing(daysCircle, days, 365);
+            updateProgressRing(hoursCircle, hours, 24);
+            updateProgressRing(minutesCircle, minutes, 60);
+            updateProgressRing(secondsCircle, seconds, 60);
+        }
+
+        // Update progress ring
+        function updateProgressRing(element, value, max) {
+            const progress = initialTotalSeconds > 0 ? 
+                ((initialTotalSeconds - totalSeconds) / initialTotalSeconds) * 360 : 0;
+            element.style.setProperty('--progress', `${progress}deg`);
+        }
+
+        // Start timer automatically
+        function startTimer() {
+            updateDisplay();
+            
+            timerInterval = setInterval(() => {
+                totalSeconds--;
+                updateDisplay();
+
+                if (totalSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    // Timer finished - could add completion logic here
+                }
+            }, 1000);
+        }
+
+        // Initialize and start timer automatically
+        startTimer();
+
         // Crear tickets voladores
         function createFlyingTicket() {
             const ticket = document.createElement('div');
