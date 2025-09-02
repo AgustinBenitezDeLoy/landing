@@ -125,7 +125,7 @@
         .timer-circle {
             width: clamp(3.5rem, 12vw, 6rem);
             height: clamp(3.5rem, 12vw, 6rem);
-            border-radius: 50%;
+            border-radius: clamp(0.5rem, 1.5vw, 1rem);
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
             border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
@@ -177,7 +177,7 @@
             left: -1px;
             right: -1px;
             bottom: -1px;
-            border-radius: 50%;
+            border-radius: clamp(0.5rem, 1.5vw, 1rem);
             background: conic-gradient(
                 from 0deg,
                 transparent 0deg,
@@ -367,8 +367,13 @@
     <script>
         // Timer functionality
         let timerInterval;
-        let totalSeconds = 20 * 24 * 60 * 60; // 20 days
-        const initialTotalSeconds = totalSeconds;
+        const STORAGE_KEY = 'reentraste_timer';
+        const INITIAL_SECONDS = 20 * 24 * 60 * 60; // 20 days
+        
+        // Load saved state or use default
+        let timerData = loadTimerState();
+        let totalSeconds = timerData.remainingSeconds;
+        const initialTotalSeconds = INITIAL_SECONDS;
 
         // Elements
         const daysEl = document.getElementById('days');
@@ -379,6 +384,45 @@
         const hoursCircle = document.getElementById('hoursCircle');
         const minutesCircle = document.getElementById('minutesCircle');
         const secondsCircle = document.getElementById('secondsCircle');
+
+        // Load timer state from localStorage
+        function loadTimerState() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    const now = Date.now();
+                    const elapsed = Math.floor((now - data.lastUpdate) / 1000);
+                    const remaining = Math.max(0, data.remainingSeconds - elapsed);
+                    
+                    return {
+                        remainingSeconds: remaining,
+                        lastUpdate: now
+                    };
+                }
+            } catch (e) {
+                // localStorage not available or error - use fallback
+            }
+            
+            // Default state
+            return {
+                remainingSeconds: INITIAL_SECONDS,
+                lastUpdate: Date.now()
+            };
+        }
+
+        // Save timer state to localStorage
+        function saveTimerState() {
+            try {
+                const data = {
+                    remainingSeconds: totalSeconds,
+                    lastUpdate: Date.now()
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            } catch (e) {
+                // localStorage not available - continue without saving
+            }
+        }
 
         // Format number with leading zero
         function formatNumber(num) {
@@ -416,12 +460,15 @@
             updateDisplay();
             
             timerInterval = setInterval(() => {
-                totalSeconds--;
-                updateDisplay();
+                if (totalSeconds > 0) {
+                    totalSeconds--;
+                    updateDisplay();
+                    saveTimerState();
+                }
 
                 if (totalSeconds <= 0) {
                     clearInterval(timerInterval);
-                    // Timer finished - could add completion logic here
+                    // Timer finished
                 }
             }, 1000);
         }
