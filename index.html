@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reentraste</title>
+    <title>Reentras</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -56,6 +56,15 @@
             opacity: 0;
         }
 
+        /* Imagen de logo */
+        .logo-image {
+            width: clamp(2.5rem, 8vw, 5rem);
+            height: clamp(2.5rem, 8vw, 5rem);
+            border-radius: 50%;
+            object-fit: cover;
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.15));
+        }
+
         .ticket-icon {
             width: clamp(2.5rem, 8vw, 5rem);
             height: clamp(1.8rem, 6vw, 3.6rem);
@@ -73,7 +82,7 @@
 
         /* Reflejo sutil */
         .logo-text::after {
-            content: 'Reentraste';
+            content: 'Reentras';
             position: absolute;
             top: 100%;
             left: 0;
@@ -226,56 +235,43 @@
         }
 
         @keyframes logoShake {
-            0%, 95%, 100% {
-                transform: translateX(0) translateY(0);
+            0%, 100% {
+                transform: translateX(0);
             }
-            96% {
-                transform: translateX(-1px) translateY(-0.5px);
+            2%, 6% {
+                transform: translateX(-2px);
             }
-            97% {
-                transform: translateX(1px) translateY(0.5px);
-            }
-            98% {
-                transform: translateX(-0.5px) translateY(0.5px);
-            }
-            99% {
-                transform: translateX(0.5px) translateY(-0.5px);
+            4%, 8% {
+                transform: translateX(2px);
             }
         }
 
         @keyframes ticketFly {
             0% {
-                transform: translateX(-100px) translateY(100vh) rotate(0deg);
+                left: -100px;
                 opacity: 0;
             }
-            5%, 95% {
-                opacity: 1;
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
             }
             100% {
-                transform: translateX(100vw) translateY(-100px) rotate(360deg);
+                left: calc(100% + 100px);
                 opacity: 0;
             }
         }
 
-
-
-        /* Mobile optimizations */
+        /* Responsive */
         @media (max-width: 768px) {
             .container {
-                gap: clamp(1.5rem, 4vw, 2.5rem);
                 padding: 1rem;
+                gap: clamp(1.5rem, 4vw, 3rem);
             }
 
             .logo {
-                font-size: clamp(2.25rem, 11vw, 4rem);
-                letter-spacing: -0.035em;
-            }
-
-            .flying-ticket {
-                font-size: 1.5rem;
-            }
-
-            .timer-grid {
+                font-size: clamp(2rem, 7vw, 4rem);
                 gap: clamp(0.5rem, 1.5vw, 1rem);
             }
         }
@@ -325,12 +321,16 @@
 <body>
     <div class="container">
         <h1 class="logo" tabindex="0">
+            <!-- Opción 1: Si tienes una imagen, reemplaza esto con: -->
+            <!-- <img src="TU_IMAGEN.jpg" alt="Logo" class="logo-image"> -->
+            
+            <!-- Opción 2: Si quieres mantener el icono de ticket por ahora: -->
             <svg class="ticket-icon" viewBox="0 0 100 72" xmlns="http://www.w3.org/2000/svg">
                 <rect x="8" y="16" width="84" height="40" rx="4" ry="4" fill="none" stroke="currentColor" stroke-width="3"/>
                 <rect x="16" y="24" width="20" height="24" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2"/>
                 <line x1="48" y1="16" x2="48" y2="56" stroke="currentColor" stroke-width="2" stroke-dasharray="3,2"/>
             </svg>
-            <span class="logo-text">Reentraste</span>
+            <span class="logo-text">Reentras</span>
         </h1>
 
         <div class="timer-container">
